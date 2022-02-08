@@ -1,5 +1,9 @@
+import path from "path";
+
 let sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('chain.db');
+var db_path = path.resolve(__dirname, 'chain.db');
+
+let db = new sqlite3.Database(db_path);
 
 db.serialize(() => {
     const sql = `

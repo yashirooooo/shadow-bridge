@@ -6,7 +6,6 @@ import { ISubmittableResult } from '@polkadot/types/types';
 import { DispatchError } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { ApiPromise } from '@polkadot/api';
-import { log } from './bridgeConsumer';
 
 export interface TX_RESULT {
     status: boolean,
