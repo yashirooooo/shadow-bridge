@@ -1,7 +1,7 @@
 import path from "path";
 
 let sqlite3 = require('sqlite3').verbose();
-var db_path = path.resolve(__dirname, 'chain.db');
+var db_path = path.resolve('data/chain.db');
 
 let db = new sqlite3.Database(db_path);
 

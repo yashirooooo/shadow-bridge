@@ -62,7 +62,7 @@ export async function handleWithLock(lockTx: any, key: string, handler: Function
 }
 
 export const log = (content: string) => {
-    fs.appendFile('./log/bridge.log', content, err => {
+    fs.appendFile('./data/bridge.log', content, err => {
         if (err) {
             console.error(err)
             return
