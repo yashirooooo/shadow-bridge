@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  shadow-bridge:
+    image: shadow-bridge
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - MAXWELL_CHAIN_ENDPOINT=xx
+      - SHADOW_CHAIN_ENDPOINT=xx
+      - SEEDS=xx
+      - LATESTBLOCK=xx
