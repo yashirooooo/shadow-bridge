@@ -2,18 +2,14 @@ import { ApiPromise } from '@polkadot/api';
 import type { EventRecord } from '@polkadot/types/interfaces';
 import { shadowApi } from './api/shadow';
 import { consumer } from './bridgeConsumer';
-import { destId } from './env';
+import { destId, sectionMethod } from './env';
 const Events = require('events');
 export const emitter = new Events();
-import { logger } from '@polkadot/util';
-
-const l = logger('block-parser');
+import BridgeLog from './log';
 
 emitter.on('msg', async () => {
     await consumer()
 });
-
-const bridgeTransfer = 'chainBridge.FungibleTransfer'
 
 export const bridgeTxPool: any[] = [];
 
@@ -27,14 +23,15 @@ const blockWithEvent = async (api: ApiPromise, bn: number) => {
 }
 
 export async function handleBlock(api: ApiPromise, bn: number) {
+    BridgeLog.debug(`Handle finalized number ${bn}`)
     const [events] = await blockWithEvent(api, bn);
     // @ts-ignore
     const resEvents: EventRecord[] = events;
     for (const event of resEvents) {
         const eventMethod = `${event.event.section}.${event.event.method}`;
         const _shadowApi = await shadowApi.isReadyOrError;
-        if (bridgeTransfer == eventMethod) {
-            l.log(`Find new bridge transfer at block ${bn}`)
+        if (sectionMethod == eventMethod) {
+            BridgeLog.info(`Find new bridge transfer at block ${bn}`)
             const dest_id = event.event.data[0]
             if (dest_id.toHuman() == destId) {
                 const nonce = event.event.data[1]

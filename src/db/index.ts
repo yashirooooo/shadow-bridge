@@ -20,7 +20,6 @@ export default class Block {
     }
 
     static find(id: number, cb: Function) {
-    	// 使用sqlite3的get
         db.get('SELECT * FROM block WHERE id = ?', id, cb);
     }
 

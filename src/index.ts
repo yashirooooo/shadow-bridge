@@ -1,17 +1,17 @@
 import { logger } from '@polkadot/util';
 import { maxwellApi } from './api/maxwell'
-import {Header} from '@polkadot/types/interfaces';
+import { Header} from '@polkadot/types/interfaces';
 import { latestBlock, port } from './env';
 import { handleBlock } from './blockParser';
 import Block from './db';
 import _ from 'lodash';
+import BridgeLog from './log';
 const express = require('express');
 const app = express();
 const l = logger('index');
 
 let currentBlock = latestBlock;
 
-// 获取某一篇文章
 app.get('/block', (_req: { params: { id: any; }; }, res: { send: (arg0: any) => void; }, next: (arg0: any) => any) => {
     Block.find(1, (err: any, block: any) => {
         if (err) return next(err);
@@ -19,16 +19,20 @@ app.get('/block', (_req: { params: { id: any; }; }, res: { send: (arg0: any) => 
     })
 });
 
+app.get('/update/:number', (req: { params: { number: number; }; }, res: any, _next: any) => {
+    currentBlock = Number(req.params.number)
+    res.send({
+        status: 'success'
+    })
+})
+
 const main = async () => {
     Block.find(1, (error: any, block: any) => {
         if (error) {
             console.log('error', error)
         } else {
             if (block) {
-                console.log('block', block)
-                if (currentBlock > block.number) {
-                    currentBlock = block.number
-                }
+                currentBlock = block.number
             } else {
                 Block.create(currentBlock, (err: any, _block: any) => {
                     if (err) {
@@ -49,7 +53,8 @@ const main = async () => {
 
     // 块处理器
     const handler = async (b: Header) => {
-        const chainBn = b.number.toNumber()
+        const chainBn = b.number.toNumber();
+        BridgeLog.debug(`Subscribe inalized number ${chainBn}`)
         if (currentBlock < chainBn) {
             let tmpBN = currentBlock;
             currentBlock = chainBn
@@ -70,8 +75,6 @@ const main = async () => {
             });
         }
     }
-
-    console.log('currentBlock', currentBlock)
 
     await subscribeFinalized(handler);
 }

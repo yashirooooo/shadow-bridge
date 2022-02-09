@@ -5,7 +5,7 @@ import { Keyring } from '@polkadot/keyring';
 import { ISubmittableResult } from '@polkadot/types/types';
 import { DispatchError } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
-import { ApiPromise } from '@polkadot/api';
+import BridgeLog from './log';
 
 export interface TX_RESULT {
     status: boolean,
@@ -26,7 +26,7 @@ export const TX_RESULT_CODE = {
  * @param {string} seeds tx already been sent
  */
 async function sendTx(
-    api: ApiPromise,
+    maxwellBlock: number,
     tx: SubmittableExtrinsic<'promise', ISubmittableResult>,
     seeds: string
 ): Promise<TX_RESULT> {
@@ -90,7 +90,7 @@ async function sendTx(
             } else if (status.isFinalized) {
                 // Pass it
                 const bhash = status.asFinalized.toHex()
-                console.log('Finalized block hash', bhash);
+                BridgeLog.info(`Maxwell block ${maxwellBlock} tx Finalized at shadow block hash: ${bhash}`);
             }
         }).catch((e: any) => {
             resolve({
