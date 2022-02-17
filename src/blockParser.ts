@@ -1,15 +1,9 @@
 import { ApiPromise } from '@polkadot/api';
-import type { EventRecord } from '@polkadot/types/interfaces';
-import { shadowApi } from './api/shadow';
-import { consumer } from './bridgeConsumer';
+import { EventRecord } from '@polkadot/types/interfaces';
 import { destId, sectionMethod } from './env';
 const Events = require('events');
 export const emitter = new Events();
 import BridgeLog from './log';
-
-emitter.on('msg', async () => {
-    await consumer()
-});
 
 export const bridgeTxPool: any[] = [];
 
@@ -25,26 +19,19 @@ const blockWithEvent = async (api: ApiPromise, bn: number) => {
 export async function handleBlock(api: ApiPromise, bn: number) {
     BridgeLog.debug(`Handle finalized number ${bn}`)
     const [events] = await blockWithEvent(api, bn);
-    // @ts-ignore
     const resEvents: EventRecord[] = events;
     for (const event of resEvents) {
+        
         const eventMethod = `${event.event.section}.${event.event.method}`;
-        const _shadowApi = await shadowApi.isReadyOrError;
         if (sectionMethod == eventMethod) {
             BridgeLog.info(`Find new bridge transfer at block ${bn}`)
             const dest_id = event.event.data[0]
             if (dest_id.toHuman() == destId) {
-                const nonce = event.event.data[1]
-                const resource_id = event.event.data[2]
+                // const _nonce = event.event.data[1]
+                // const _resource_id = event.event.data[2]
                 const amount = event.event.data[3]
                 const recipient = event.event.data[4]
-                const call = _shadowApi.tx.balances.transfer(recipient, amount)
-                const tx = _shadowApi.tx.chainBridge.acknowledgeProposal(nonce, 1, resource_id, call);
-                bridgeTxPool.push({
-                    blockNumber: bn,
-                    tx
-                })
+                BridgeLog.info(`Block: ${bn}, recipient: ${recipient.toHuman()}, amount: ${amount.toString()}`)
             }
-            emitter.emit('msg');
         }
     }}

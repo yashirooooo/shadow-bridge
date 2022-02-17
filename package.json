@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@crustio/type-definitions": "1.2.0",
-    "@polkadot/api": "7.4.2-7",
+    "@polkadot/api": "4.2.2-4",
     "@types/cors": "^2.8.8",
     "@types/lodash": "^4.14.167",
     "cors": "^2.8.5",

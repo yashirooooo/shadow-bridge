@@ -1,12 +1,16 @@
 version: '3'
 
 services:
-  shadow-bridge:
-    image: shadow-bridge
+  elrond-bridge:
+    image: elrond-bridge
     restart: always
+    volumes:
+      - './data:/usr/src/elrond-bridge/data'
+    ports:
+      - 9848:8848
     environment:
       - TZ=Asia/Shanghai
-      - MAXWELL_CHAIN_ENDPOINT=xx
-      - SHADOW_CHAIN_ENDPOINT=xx
-      - SEEDS=xx
+      - MAINNET_CHAIN_ENDPOINT=xx
       - LATESTBLOCK=xx
+      - DESTID=100
+      - SECTIONMETHOD=chainBridge.FungibleTransfer

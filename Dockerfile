@@ -1,6 +1,6 @@
 FROM node:current-alpine3.14
 
-WORKDIR /usr/src/shadow-bridge
+WORKDIR /usr/src/elrond-bridge
 
 # Move source files to docker image
 COPY . .

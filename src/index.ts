@@ -1,5 +1,5 @@
 import { logger } from '@polkadot/util';
-import { maxwellApi } from './api/maxwell'
+import { mainnetApi } from './api/mainnet'
 import { Header} from '@polkadot/types/interfaces';
 import { latestBlock, port } from './env';
 import { handleBlock } from './blockParser';
@@ -42,11 +42,11 @@ const main = async () => {
             }
         }
     })
-    const _maxwellApi = await maxwellApi.isReadyOrError;
+    const _mainnetApi = await mainnetApi.isReadyOrError;
     
      // 监听finalized块
     const subscribeFinalized = async (handler: (b: Header) => void) => {
-        return await _maxwellApi.rpc.chain.subscribeFinalizedHeads((head: Header) =>
+        return await _mainnetApi.rpc.chain.subscribeFinalizedHeads((head: Header) =>
             handler(head)
         );
     }
@@ -54,12 +54,12 @@ const main = async () => {
     // 块处理器
     const handler = async (b: Header) => {
         const chainBn = b.number.toNumber();
-        BridgeLog.debug(`Subscribe inalized number ${chainBn}`)
+        BridgeLog.debug(`Subscribe finalized number ${chainBn}`)
         if (currentBlock < chainBn) {
             let tmpBN = currentBlock;
             currentBlock = chainBn
             for (let bn = tmpBN; bn < currentBlock; bn++) {
-                const _api = await maxwellApi.isReadyOrError;
+                const _api = await mainnetApi.isReadyOrError;
                 await handleBlock(_api, bn)
                 Block.update(1, bn, (err: any, _data: any) => {
                     if (err) {
