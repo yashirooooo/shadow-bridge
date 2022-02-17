@@ -20,9 +20,7 @@ export default {
     ChainId: "u8",
     ResourceId: "[u8; 32]",
     DepositNonce: "u64",
-    CSMBalanceOf: "BalanceOf",
     CsmBalanceOf: "BalanceOf",
-    CSMBalance: "BalanceOf",
     CsmBalance: "BalanceOf",
     ProposalVotes: {
       "votes_for": "Vec<AccountId>",
