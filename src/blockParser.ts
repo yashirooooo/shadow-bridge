@@ -1,8 +1,6 @@
 import { ApiPromise } from '@polkadot/api';
 import { EventRecord } from '@polkadot/types/interfaces';
 import { destId, sectionMethod } from './env';
-const Events = require('events');
-export const emitter = new Events();
 import BridgeLog from './log';
 
 export const bridgeTxPool: any[] = [];
@@ -24,7 +22,6 @@ export async function handleBlock(api: ApiPromise, bn: number) {
         
         const eventMethod = `${event.event.section}.${event.event.method}`;
         if (sectionMethod == eventMethod) {
-            BridgeLog.info(`Find new bridge transfer at block ${bn}`)
             const dest_id = event.event.data[0]
             if (dest_id.toHuman() == destId) {
                 // const _nonce = event.event.data[1]
