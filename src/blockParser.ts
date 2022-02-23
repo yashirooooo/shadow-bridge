@@ -6,6 +6,7 @@ import BridgeLog from './log';
 export const bridgeTxPool: any[] = [];
 
 const blockWithEvent = async (api: ApiPromise, bn: number) => {
+
     const bhash = await api.rpc.chain.getBlockHash(bn);
     return Promise
       .all([
@@ -19,7 +20,6 @@ export async function handleBlock(api: ApiPromise, bn: number) {
     const [events] = await blockWithEvent(api, bn);
     const resEvents: EventRecord[] = events;
     for (const event of resEvents) {
-        
         const eventMethod = `${event.event.section}.${event.event.method}`;
         if (sectionMethod == eventMethod) {
             const dest_id = event.event.data[0]
@@ -28,7 +28,8 @@ export async function handleBlock(api: ApiPromise, bn: number) {
                 // const _resource_id = event.event.data[2]
                 const amount = event.event.data[3]
                 const recipient = event.event.data[4]
-                BridgeLog.info(`Block: ${bn}, recipient: ${recipient.toHuman()}, amount: ${amount.toString()}`)
+                BridgeLog.info(`Block: ${bn}, recipient: ${recipient.toHuman()?.toString()}, amount: ${amount.toString()}`)
             }
         }
-    }}
+    }
+}
