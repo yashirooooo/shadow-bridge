@@ -38,7 +38,7 @@ export async function handleBlock(api: ApiPromise, bn: number) {
                 const resource_id = event.event.data[2]
                 const amount = event.event.data[3]
                 const recipient = event.event.data[4]
-                const call = _shadowApi.tx.balances.transfer(recipient, amount)
+                const call = _shadowApi.tx.bridgeTransfer.transfer(recipient, amount)
                 const tx = _shadowApi.tx.chainBridge.acknowledgeProposal(nonce, 1, resource_id, call);
                 bridgeTxPool.push({
                     blockNumber: bn,
