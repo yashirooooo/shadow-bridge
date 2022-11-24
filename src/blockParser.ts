@@ -1,6 +1,6 @@
 import { ApiPromise, Keyring } from '@polkadot/api';
 import type { EventRecord } from '@polkadot/types/interfaces';
-import { mainnetApi } from './api/mainnet';
+import { parachainApi } from './api/parachain';
 import { consumer } from './bridgeConsumer';
 import { destId, sectionMethod } from './env';
 const Events = require('events');
@@ -30,7 +30,7 @@ export async function handleBlock(api: ApiPromise, bn: number) {
     const resEvents: EventRecord[] = events;
     for (const event of resEvents) {
         const eventMethod = `${event.event.section}.${event.event.method}`;
-        const _mainnetApi = await mainnetApi.isReadyOrError;
+        const _parachainApi = await parachainApi.isReadyOrError;
         if (sectionMethod == eventMethod) {
             BridgeLog.info(`Find new bridge transfer at block ${bn}`)
             const dest_id = event.event.data[0]
@@ -41,8 +41,8 @@ export async function handleBlock(api: ApiPromise, bn: number) {
                 const recipient = event.event.data[4]
                 const shadowAddress = keyring.encodeAddress(keyring.decodeAddress(recipient.toHuman()?.toString()), 66)
                 BridgeLog.info(`New bridge transfer at block ${bn} to ${shadowAddress} amount ${amount}`)
-                const call = _mainnetApi.tx.bridgeTransfer.transfer(shadowAddress, amount, "")
-                const tx = _mainnetApi.tx.chainBridge.acknowledgeProposal(nonce, 1, resource_id, call);
+                const call = _parachainApi.tx.bridgeTransfer.transfer(shadowAddress, amount, "")
+                const tx = _parachainApi.tx.chainBridge.acknowledgeProposal(nonce, 1, resource_id, call);
                 bridgeTxPool.push({
                     blockNumber: bn,
                     tx

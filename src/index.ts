@@ -1,5 +1,5 @@
 import { logger } from '@polkadot/util';
-import { parachainApi } from './api/parachain'
+import { mainnetApi } from './api/mainnet'
 import { Header} from '@polkadot/types/interfaces';
 import { latestBlock, port } from './env';
 import { handleBlock } from './blockParser';
@@ -42,11 +42,11 @@ const main = async () => {
             }
         }
     })
-    const _parachainApi = await parachainApi.isReadyOrError;
+    const _mainnetApi = await mainnetApi.isReadyOrError;
     
      // 监听finalized块
     const subscribeFinalized = async (handler: (b: Header) => void) => {
-        return await _parachainApi.rpc.chain.subscribeFinalizedHeads((head: Header) =>
+        return await _mainnetApi.rpc.chain.subscribeFinalizedHeads((head: Header) =>
             handler(head)
         );
     }
@@ -59,7 +59,7 @@ const main = async () => {
             let tmpBN = currentBlock;
             currentBlock = chainBn
             for (let bn = tmpBN; bn < currentBlock; bn++) {
-                const _api = await parachainApi.isReadyOrError;
+                const _api = await mainnetApi.isReadyOrError;
                 await handleBlock(_api, bn)
                 Block.update(1, bn, (err: any, _data: any) => {
                     if (err) {
