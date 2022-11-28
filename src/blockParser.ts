@@ -33,13 +33,14 @@ export async function handleBlock(api: ApiPromise, bn: number) {
         const _parachainApi = await parachainApi.isReadyOrError;
         if (sectionMethod == eventMethod) {
             BridgeLog.info(`Find new bridge transfer at block ${bn}`)
+            console.log('event.event.data::', JSON.stringify(event.event.data))
             const dest_id = event.event.data[0]
             if (dest_id.toHuman() == destId) {
                 const nonce = event.event.data[1]
                 const resource_id = event.event.data[2]
                 const amount = event.event.data[3]
                 const recipient = event.event.data[4]
-                const shadowAddress = keyring.encodeAddress(keyring.decodeAddress(recipient.toHuman()?.toString()), 66)
+                const shadowAddress = keyring.encodeAddress(keyring.decodeAddress(recipient.toHuman()?.toString()), 88)
                 BridgeLog.info(`New bridge transfer at block ${bn} to ${shadowAddress} amount ${amount}`)
                 const call = _parachainApi.tx.bridgeTransfer.transfer(shadowAddress, amount, "")
                 const tx = _parachainApi.tx.chainBridge.acknowledgeProposal(nonce, 1, resource_id, call);

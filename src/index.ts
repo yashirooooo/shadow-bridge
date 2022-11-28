@@ -54,7 +54,7 @@ const main = async () => {
     // 块处理器
     const handler = async (b: Header) => {
         const chainBn = b.number.toNumber();
-        BridgeLog.debug(`Subscribe inalized number ${chainBn}`)
+        BridgeLog.debug(`Subscribe finalized number ${chainBn}`)
         if (currentBlock < chainBn) {
             let tmpBN = currentBlock;
             currentBlock = chainBn
