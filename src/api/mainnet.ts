@@ -3,7 +3,7 @@ import { logger } from '@polkadot/util';
 import { mainnetChainEndpoint } from '../env';
 import { typesBundleForPolkadot } from '@crustio/type-definitions';
 
-const l = logger('mainnet -api');
+const l = logger('mainnet-api');
 
 export const mainnetApi: ApiPromise = new ApiPromise({
     provider: new WsProvider(mainnetChainEndpoint || 'ws://localhost:9944'),
