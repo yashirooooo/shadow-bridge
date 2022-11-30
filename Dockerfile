@@ -10,7 +10,7 @@ RUN apt-get install --no-install-recommends -y nodejs && \
   rm -rf /var/lib/apt/lists/*
 RUN npm install yarn -g
 
-WORKDIR /usr/src/parachain-to-mainnet-bridge
+WORKDIR /usr/src/mainnet-to-parachain-bridge
 
 # Move source files to docker image
 COPY . .

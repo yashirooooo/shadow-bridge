@@ -1,12 +1,15 @@
 version: '3'
 
 services:
-  parachain-to-mainnet-bridge:
-    image: parachain-to-mainnet-bridge
+  mainnet-to-parachain-bridge:
+    image: mainnet-to-parachain-bridge
     restart: always
     environment:
       - TZ=Asia/Shanghai
-      - MAXWELL_CHAIN_ENDPOINT=xx
-      - SHADOW_CHAIN_ENDPOINT=xx
+      - MAINNET_CHAIN_ENDPOINT=xx
+      - PARACHAIN_ENDPOINT=xx
       - SEEDS=xx
       - LATESTBLOCK=xx
+      - DESTID=xx
+      - SECTIONMETHOD=xx
+      - port=8848
