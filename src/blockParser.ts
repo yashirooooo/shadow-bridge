@@ -41,7 +41,7 @@ export async function handleBlock(api: ApiPromise, bn: number) {
                 const recipient = event.event.data[4]
                 const shadowAddress = keyring.encodeAddress(keyring.decodeAddress(recipient.toHuman()?.toString()), 66)
                 BridgeLog.info(`New bridge transfer at block ${bn} to ${shadowAddress} amount ${amount}`)
-                const call = _mainnetApi.tx.bridgeTransfer.transfer(shadowAddress, amount, "")
+                const call = _mainnetApi.tx.bridgeTransfer.transferFromPolkadotParachain(shadowAddress, amount, "")
                 const tx = _mainnetApi.tx.chainBridge.acknowledgeProposal(nonce, 101, resource_id, call);
                 bridgeTxPool.push({
                     blockNumber: bn,

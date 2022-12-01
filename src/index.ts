@@ -60,12 +60,17 @@ const main = async () => {
             currentBlock = chainBn
             for (let bn = tmpBN; bn < currentBlock; bn++) {
                 const _api = await parachainApi.isReadyOrError;
-                await handleBlock(_api, bn)
-                Block.update(1, bn, (err: any, _data: any) => {
-                    if (err) {
-                        l.error(`update block error ${JSON.stringify(err)}`)
-                    }
-                });
+                try {
+                    await handleBlock(_api, bn)
+                    Block.update(1, bn, (err: any, _data: any) => {
+                        if (err) {
+                            l.error(`update block error ${JSON.stringify(err)}`)
+                        }
+                    }); 
+                } catch (error) {
+                    console.log(`handle block error: ${error}`);
+                    process.exit(0);
+                }
             }
         } else {
             Block.update(1, chainBn, (err: any, _data: any) => {
@@ -83,6 +88,11 @@ process.on('uncaughtException', (err: Error) => {
     l.error(`☄️ [global] Uncaught exception ${err.message}`);
     process.exit(0)
 });
+
+process.on('unhandledRejection', (err: Error) => {
+    l.error(`☄️ [global] unhandledRejection exception ${err.message}`);
+    process.exit(0)
+})
 
 main().then().catch()
 
