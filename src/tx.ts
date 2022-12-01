@@ -26,7 +26,7 @@ export const TX_RESULT_CODE = {
  * @param {string} seeds tx already been sent
  */
 async function sendTx(
-    maxwellBlock: number,
+    block: number,
     tx: SubmittableExtrinsic<'promise', ISubmittableResult>,
     seeds: string
 ): Promise<TX_RESULT> {
@@ -90,7 +90,7 @@ async function sendTx(
             } else if (status.isFinalized) {
                 // Pass it
                 const bhash = status.asFinalized.toHex()
-                BridgeLog.info(`Maxwell block ${maxwellBlock} tx Finalized at shadow block hash: ${bhash}`);
+                BridgeLog.info(`Mainnet block ${block} tx Finalized at shadow block hash: ${bhash}`);
             }
         }).catch((e: any) => {
             resolve({
