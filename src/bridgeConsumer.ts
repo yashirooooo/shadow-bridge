@@ -48,8 +48,8 @@ export async function handleWithLock(lockTx: any, key: string, handler: Function
     try {
         lockTx[key] = true;
         return await timeout(
-            new Promise((resolve, reject) => {
-              handler().then(resolve).catch(reject);
+            new Promise((resolve, _) => {
+              handler().then(resolve).catch(process.exit(0));
             }),
             2 * 60 * 1000 // 2 min will timeout
         );
