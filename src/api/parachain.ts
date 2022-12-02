@@ -15,3 +15,8 @@ parachainApi.on('disconnected', (): void => {
     l.error('API has been disconnected from the endpoint')
     process.exit(0)
 });
+
+parachainApi.on('error', () => {
+    l.log(`PARACHAIN API connected error`)
+    process.exit(0)
+})

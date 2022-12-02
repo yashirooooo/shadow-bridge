@@ -59,13 +59,18 @@ const main = async () => {
             let tmpBN = currentBlock;
             currentBlock = chainBn
             for (let bn = tmpBN; bn < currentBlock; bn++) {
-                const _api = await mainnetApi.isReadyOrError;
-                await handleBlock(_api, bn)
-                Block.update(1, bn, (err: any, _data: any) => {
-                    if (err) {
-                        l.error(`update block error ${JSON.stringify(err)}`)
-                    }
-                });
+                try {
+                    const _api = await mainnetApi.isReadyOrError;
+                    await handleBlock(_api, bn)
+                    Block.update(1, bn, (err: any, _data: any) => {
+                        if (err) {
+                            l.error(`update block error ${JSON.stringify(err)}`)
+                        }
+                    });
+                } catch (error) {
+                    console.log(`handle block error ${error}`);
+                    process.exit(0);
+                }
             }
         } else {
             Block.update(1, chainBn, (err: any, _data: any) => {

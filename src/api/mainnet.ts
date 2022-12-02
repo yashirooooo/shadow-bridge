@@ -18,3 +18,8 @@ mainnetApi.on('disconnected', (): void => {
     l.error('API has been disconnected from the endpoint')
     process.exit(0)
 });
+
+mainnetApi.on('error', () => {
+    l.log(`MAINNET API connected error`)
+    process.exit(0)
+})
