@@ -59,8 +59,8 @@ const main = async () => {
             let tmpBN = currentBlock;
             currentBlock = chainBn
             for (let bn = tmpBN; bn < currentBlock; bn++) {
-                const _api = await parachainApi.isReadyOrError;
                 try {
+                    const _api = await parachainApi.isReadyOrError;
                     await handleBlock(_api, bn)
                     Block.update(1, bn, (err: any, _data: any) => {
                         if (err) {
