@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  mainnet-to-parachain-bridge:
+    image: coderyashiro/mainnet-to-parachain-bridge:latest
+    restart: always
+    ports:
+      - 18848:8848
+    volumes:
+      - './data:/usr/src/mainnet-to-parachain-bridge/data'
+    environment:
+      - TZ=Asia/Shanghai
+      - MAINNET_CHAIN_ENDPOINT=
+      - PARACHAIN_ENDPOINT=
+      - SEEDS=
+      - LATESTBLOCK=
+      - DESTID=
+      - SECTIONMETHOD=
+      - port=8848
