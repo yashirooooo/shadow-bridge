@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  shadow-bridge:
+    image: coderyashiro/shadow-bridge:latest
+    restart: always
+    ports:
+      - 18848:8848
+    volumes:
+      - './data:/usr/src/shadow-bridge/data'
+    environment:
+      - TZ=Asia/Shanghai
+      - MAINNET_CHAIN_ENDPOINT=
+      - PARACHAIN_ENDPOINT=
+      - SEEDS=
+      - LATESTBLOCK=
+      - DESTID=
+      - SECTIONMETHOD=
+      - port=8848
