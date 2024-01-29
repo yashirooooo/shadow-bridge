@@ -1,4 +1,4 @@
-name: ethda-faucet (main)
+name: parachain-to-mainnet
 
 on:
   workflow_dispatch:
@@ -37,5 +37,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            gavfu/shadow-bridge:${{ steps.extract_branch.outputs.branch }}-latest
-            gavfu/shadow-bridge:${{ steps.extract_branch.outputs.branch }}-${{ env.date }}
+            crustio/shadow-bridge:${{ steps.extract_branch.outputs.branch }}-latest
+            crustio/shadow-bridge:${{ steps.extract_branch.outputs.branch }}-${{ env.date }}
