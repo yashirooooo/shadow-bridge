@@ -1,14 +1,13 @@
-FROM ubuntu:18.04 as builder
+FROM ubuntu:20.04 as builder
 
 RUN apt-get update && \
   apt-get install --no-install-recommends -y curl git gnupg ca-certificates
 
 # install nodejs
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install --no-install-recommends -y nodejs && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
-RUN npm install yarn -g
+  rm -rf /var/lib/apt/lists/* \
 
 WORKDIR /usr/src/mainnet-to-parachain-bridge
 
@@ -16,6 +15,7 @@ WORKDIR /usr/src/mainnet-to-parachain-bridge
 COPY . .
 
 # Install dependencies
+RUN npm install --global yarn
 RUN yarn && yarn build
 
 # Run
