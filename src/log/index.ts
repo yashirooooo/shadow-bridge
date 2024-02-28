@@ -19,4 +19,13 @@ export default class BridgeLog {
             }
         })
     }
+
+    static error(content: string) {
+        fs.appendFile('./data/bridge-error.log', content + `\n`, err => {
+            if (err) {
+                console.error(err)
+                return
+            }
+        })
+    }
 }

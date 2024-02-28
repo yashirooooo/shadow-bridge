@@ -43,7 +43,7 @@ const main = async () => {
         }
     })
     const _mainnetApi = await mainnetApi.isReadyOrError;
-    
+
      // 监听finalized块
     const subscribeFinalized = async (handler: (b: Header) => void) => {
         return await _mainnetApi.rpc.chain.subscribeFinalizedHeads((head: Header) =>
@@ -69,7 +69,8 @@ const main = async () => {
                     });
                 } catch (error) {
                     console.log(`handle block error ${error}`);
-                    process.exit(0);
+                    BridgeLog.error(`handle block error at: ${bn} error: ${error}`)
+                    // process.exit(0);
                 }
             }
         } else {
