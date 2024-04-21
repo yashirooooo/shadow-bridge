@@ -69,8 +69,7 @@ const main = async () => {
                     });
                 } catch (error) {
                     console.log(`handle block error ${error}`);
-                    BridgeLog.error(`handle block error at: ${bn} error: ${error}`)
-                    // process.exit(0);
+                    process.exit(0);
                 }
             }
         } else {
